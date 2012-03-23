@@ -4,9 +4,26 @@
 ;
            .GLOBAL  StoUpper
 ;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE  2           ;formal parameter address of Sobject
 ;-- Local Data ----------------------------------------------------------
+index:     .BLOCK   2
 ;-- Entry Point ---------------------------------------------------------
 StoUpper:  NOP0
-           RET0
+           LDX      0,i         ;init the x register
+           LDA      0,i         ;clear the a register
+loop:      LDBYTEA  Sobject,sxf ;load the char into the a register
+           CPA      '\x00',i    ;compare with the null char
+           BREQ     end         ;end if it is the null char
+           CPA      'a',i       ;compare char with 'a'
+           BRGE     cmp2        ;branch to second compare if >=
+           BR       inc         ;otherwise increment
+cmp2:      CPA      'z',i       ;compare char with 'z'
+           BRLE     toUpp       ;branch to toUpp if <=
+           BR       inc         ;otherwise increment
+toUpp:     SUBA     32,i        ;add 32 to value which will lower case the value
+           STBYTEA  Sobject,sxf ;store the char back into the string
+inc:       ADDX     1,i         ;add 1 to the x register
+           BR       loop        ;loop!
+end:       RET0                 ;return to calling program
 ;
 ;=========================================================================
