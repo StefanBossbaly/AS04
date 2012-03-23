@@ -1,0 +1,96 @@
+           .APPEND  "Strings.pep1"
+           BR       main
+returned:  .WORD    0
+           .BYTE    32             ;+ "before byte" with capacity
+s1:        .BLOCK   32             ;+ block of bytes to store string
+as1:       .ADDRSS  s1
+           .BYTE    16             ;+ "before byte" with capacity
+s2:        .BLOCK   16             ;+ block of bytes to store string
+as2:       .ADDRSS  s2
+count:     .WORD    0
+title:     .ASCII   "StringsTester.pep1\n\x00"
+main:      NOP0
+           STRO     title,d
+;Illustrate the Scapacty subprogram
+;----------------------------------
+           LDA      as1,d          ;+ returned = Scapacty(as1)
+           STA      -2,s           ;|
+           SUBSP    2,i            ;|
+           CALL     Scapacty       ;|
+           ADDSP    2,i            ;|
+           STA      returned,d     ;+
+           DECO     returned,d
+           CHARO    '\n',i
+           LDA      as2,d          ;+ returned = Scapacty(as2)
+           STA      -2,s           ;|
+           SUBSP    2,i            ;|
+           CALL     Scapacty       ;|
+           ADDSP    2,i            ;|
+           STA      returned,d     ;+
+           DECO     returned,d
+           CHARO    '\n',i
+;----------------------------------
+loop:      DECO     count,d
+           CHARO    '\n',i
+           LDA      count,d
+           ASRA                    ;
+           BRC      two
+one:       LDA      as1,d          ;  Prepare to push as1
+           BR       pushit
+two:       LDA      as2,d          ;  Prepare to push as2
+pushit:    STA      -2,s           ;+ Push arg; as1 or as2
+           SUBSP    2,i            ;+
+           CALL     STRInput       ;  Call
+           ADDSP    4,i            ;  Remove args
+           STA      returned,d     ;  Save returned value
+           DECO     returned,d     ;  And print  it
+           CHARO    ',',i
+           LDA      count,d
+           ASRA
+           BRC      twoP
+oneP:      STRO     s1,d
+           BR       printit
+twoP:      STRO     s2,d
+printit:   CHARO    '\n',i
+           LDA      count,d
+           ASRA
+           BRC      twoL
+oneL:      LDA      as1,d
+           BR       pushitL
+twoL:      LDA      as2,d
+pushitL:   STA      -2,s
+           SUBSP    2,i
+           CALL     Slength
+           ADDSP    2,i
+           STA      returned,d
+           DECO     returned,d
+           CHARO    '\n',i
+           CPA      0,i
+           BREQ     done
+;------------------------------------------------------
+           LDA      count,d        ;+ count = count + 1;
+           ADDA     1,i            ;|
+           STA      count,d        ;+
+           BR       loop
+done:      NOP0
+;Illustrate the Scapacty subprogram
+;----------------------------------
+           LDA      as1,d          ;+ returned = Scapacty(as1)
+           STA      -2,s           ;|
+           SUBSP    2,i            ;|
+           CALL     Scapacty       ;|
+           ADDSP    2,i            ;|
+           STA      returned,d     ;+
+           DECO     returned,d
+           CHARO    '\n',i
+           LDA      as2,d          ;+ returned = Scapacty(as2)
+           STA      -2,s           ;|
+           SUBSP    2,i            ;|
+           CALL     Scapacty       ;|
+           ADDSP    2,i            ;|
+           STA      returned,d     ;+
+           DECO     returned,d
+           CHARO    '\n',i
+;----------------------------------
+           STOP
+           .END

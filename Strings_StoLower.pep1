@@ -1,0 +1,28 @@
+;************************************************************************ 
+;
+;********  void StoLower (char[] Sobject)
+;
+           ;.GLOBAL  StoLower
+;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE  2             ;formal parameter; address of Sobject
+;-- Local Data ----------------------------------------------------------
+index:     .BLOCK   2
+;-- Entry Point ---------------------------------------------------------
+StoLower:NOP0
+         LDX 0,i ;start at the begining of the string
+loop:    LDBYTEA Sobject,sxf ;load the char into the a register
+		 CPA 0,i
+		 BREQ end
+         CPA 65,i
+         BRGE cmp2
+         BR inc
+cmp2:    CPA 90,i
+         BRLE toLow
+         BR inc
+toLow:   SUBA 32,i
+         STA Sobject,sxf
+inc:     ADDX 2,i
+         BR loop
+end:     RET0
+;
+;=========================================================================

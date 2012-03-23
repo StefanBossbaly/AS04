@@ -1,0 +1,23 @@
+;************************************************************************
+;File:   Strings.pep1
+;
+; A Collection of subprograms providing operations on strings.  Each of
+; these subprograms makes use of a "pseudo String object", which is a
+; representation consisting of n+1 contiguous bytes with the first byte
+; containing the size of the container (which would be n).  This "object"
+; is referenced using the address of the second byte.
+;Author: P.M.J.
+;Date:   Spring 2012
+;************************************************************************
+;
+         .INCLUDE     "Strings_STRInput.pep1"
+         .INCLUDE     "Strings_SLength.pep1"
+         .INCLUDE     "Strings_Scapacty.pep1"
+         .INCLUDE     "Strings_Strim.pep1"
+         .INCLUDE     "Strings_StoLower.pep1"
+         .INCLUDE     "Strings_StoUpper.pep1"
+         .INCLUDE     "Strings_SnindxOf.pep1"
+         .INCLUDE     "Strings_SpindxOf.pep1"
+         .INCLUDE     "Strings_Sshiftl.pep1"
+         .INCLUDE     "Strings_Stranslt.pep1"
+         .INCLUDE     "Strings_SindxOf.pep1"

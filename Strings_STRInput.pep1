@@ -1,0 +1,62 @@
+;************************************************************************
+; String input subprogram that reads the next line of input (that is, all
+; characters until a newline is read) and stores that input in the object
+; whose reference (i.e. address) is passed as the argument.  In the event
+; the input is too long for the given object, the value is truncated and
+; the subprogram returns the count of the number of characters which have
+; been lost.  Thus, a return value of zero indicates that the input has
+; been read in it's entirety.
+;
+;********  int STRInput (char[] Sobject)
+;
+           .GLOBAL  STRInput
+;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE  6             ;address of Sobject
+;-- Local Data ----------------------------------------------------------
+capacity:  .EQUATE  0             ;capacity of Sobject
+ignored:   .EQUATE  2             ;number of ignored characters
+;-- Entry Point ---------------------------------------------------------
+STRInput:  NOP0
+           SUBSP    4,i           ;  room for two local words
+           LDA      0,i           ;+ ignored = 0;
+           STA      ignored,s     ;+
+           LDA      Sobject,s     ;+ A = Scapacty(Sobject)
+           STA      -2,s          ;|
+           SUBSP    2,i           ;|
+           CALL     Scapacty      ;|
+           ADDSP    2,i           ;+
+           LDX      -1,i          ;+ Get Sobject capacity from "before byte"
+           LDA      0,i           ;|
+           LDBYTEA  Sobject,sxf   ;+
+           STA      capacity,s    ;| capacity = "before byte" value
+           LDX      0,i           ;| X = 0;
+           CPX      capacity,s    ;| if(capacity > 0) {
+           BRGE     error         ;|
+           LDA      0,i           ;|
+loop:      CPX      capacity,s    ;|   while(X < capacity) {
+           BREQ     full          ;|
+           CHARI    Sobject,sxf   ;|     Sobject[X] = CHARI;
+           LDBYTEA  Sobject,sxf   ;|
+           CPA      '\n',i        ;|     if(Sobject[X] == '\n') GOTO done
+           BREQ     done          ;|
+           ADDX     1,i           ;|     X = X + 1;
+           BR       loop          ;|   }
+full:      LDA      ignored,s     ;|   + ignored = ignored + 1;
+           ADDA     1,i           ;|   |
+           STA      ignored,s     ;|   +
+           SUBX     1,i           ;|   X = X - 1;
+ignore:    CHARI    Sobject,sxf   ;|   while(CHARI != '\n') {
+           LDA      0,i           ;|
+           LDBYTEA  Sobject,sxf   ;|
+           CPA      '\n',i        ;|
+           BREQ     done          ;|
+           LDA      ignored,s     ;|     + ignored = ignored + 1;
+           ADDA     1,i           ;|     |
+           STA      ignored,s     ;|     +
+           BR       ignore        ;|   }
+done:      LDBYTEA  0,i           ;|
+           STBYTEA  Sobject,sxf   ;|
+           LDA      ignored,s     ;|   A = ignored;
+           BR       return        ;|
+error:     LDA      -1,i          ;| } else { A = -1; }
+return:    RET4                   ;+ return (two local words)

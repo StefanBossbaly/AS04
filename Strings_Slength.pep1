@@ -1,0 +1,21 @@
+;************************************************************************
+; String length subprogram that returns the count of the number of
+; characters in the string.
+;
+;********  int Slength (char[] Sobject)
+;
+           .GLOBAL  Slength
+;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE  2             ;formal parameter; address of Sobject
+;-- Local Data ----------------------------------------------------------
+;-- Entry Point ---------------------------------------------------------
+Slength:   NOP0
+           LDX      0,i
+loop:      LDBYTEA  Sobject,sxf
+           CPA      0,i
+           BREQ     done
+           ADDX     1,i
+           BR       loop
+done:      STX      -2,s
+           LDA      -2,s
+           RET0

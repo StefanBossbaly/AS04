@@ -1,0 +1,19 @@
+;************************************************************************
+; Private subprogram that returns the size of the area allocated for the
+; given "String object".  This is stored in the byte before the given
+; address.
+;
+;********  int Scapacty (char[] Sobject)
+;
+           .GLOBAL  Scapacty
+;-- Arguments -----------------------------------------------------------
+Sobject:  .EQUATE  2              ;formal parameter; address of Sobject
+;-- Local Data ----------------------------------------------------------
+;-- Entry Point ---------------------------------------------------------
+Scapacty:  NOP0
+           LDX      -1,i          ;+ Get Sobject capacity from "before byte"
+           LDA      0,i           ;|
+           LDBYTEA  Sobject,sxf   ;+
+           RET0
+;
+;=========================================================================
