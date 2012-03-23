@@ -4,25 +4,26 @@
 ;
            .GLOBAL  Sshiftl
 ;-- Arguments -----------------------------------------------------------
-Sobject:   .EQUATE  2           ;formal parameter address of Sobject
-distance:  .EQUATE  4           ;formal paramter int distance
-begIndex:  .EQUATE  6           ;formal paramter int begIndex
-n:		   .EQUATE  8           ;formal paramter int n
+Sobject:   .EQUATE  2            ;formal parameter address of Sobject
+distance:  .EQUATE  4            ;formal paramter int distance
+begIndex:  .EQUATE  6            ;formal paramter int begIndex
+n:         .EQUATE  8            ;formal paramter int n
 ;-- Local Data ----------------------------------------------------------
-curIndex:  .WORD    0           ;used for loop counter
+curIndex:  .WORD    0            ;used for loop counter
 ;-- Entry Point ---------------------------------------------------------
 Sshiftl:   NOP0
-		   LDX begIndex,s  ;load the begin index into x register
-           STX curIndex,d  ;save the begin index to the loop counter
-loop:      CPX n,s         ;compare loop counter to n
-           BRGT end        ;branch to end if i > n
-           ADDX distance,s ;add distance to x register (i + distance)
-           LDA Sobject,sxf ;load Sobject[i + distance] into a register
-           LDX curIndex,d  ;load i into the x register
-           STA Sobject,sxf ;Sobject[i] = Sobject[i + distance]
-           ADDX 1,i        ;increment x register by one
-           STX curIndex,d  ;store i
-           BR loop
-end:       RET0
+           LDA      0,i          ;clear contents of a register
+           LDX      begIndex,s   ;load the begin index into x register
+           STX      curIndex,d   ;save the begin index to the loop counter
+loop:      CPX      n,s          ;compare loop counter to n
+           BRGT     end          ;branch to end if i > n
+           ADDX     distance,s   ;add distance to x register (i + distance)
+           LDBYTEA  Sobject,sxf  ;load Sobject[i + distance] into a register
+           LDX      curIndex,d   ;load i into the x register
+           STBYTEA  Sobject,sxf  ;Sobject[i] = Sobject[i + distance]
+           ADDX     1,i          ;increment x register by one
+           STX      curIndex,d   ;store i
+           BR       loop         ;loop
+end:       RET0                  ;return to calling program
 ;
 ;=========================================================================
