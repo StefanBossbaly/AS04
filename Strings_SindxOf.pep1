@@ -41,7 +41,7 @@ cmpLp:     CPX tLen,d     ;compare j and tLen
            LDX  j,d       ;load j into x register
            CPA Tobject,sxf ;compare Sobject[i + j] to Tobject[j]
            BRNE dCmpLp     ;Sobject[i + j] != Tobject[j], end loop
-           ADDX change,d   ;j += change
+           ADDX change,s   ;j += change
            STX j,d         ;
            BR cmpLp        ;loop
 dCmpLp:    LDX j,d         ;load j into x register
