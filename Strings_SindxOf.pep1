@@ -48,7 +48,7 @@ dCmpLp:    LDX j,d         ;load j into x register
            CPX tLen,d      ;compare j to tLen
            BREQ retTrue    ;return true if (j == tLen)
            LDX i,d         ;i += change
-           ADDX change,d
+           ADDX change,s
            STX i,d
            BR loop         ;loop
 retFalse:  LDA -1,i        ;load -1
