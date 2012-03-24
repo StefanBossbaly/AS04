@@ -14,6 +14,7 @@ i:         .WORD    0
 j:         .WORD    0
 tLen:      .BLOCK   2
 sLen:      .BLOCK   2
+char:      .BYTE    0
 ;-- Entry Point ---------------------------------------------------------
 SindxOf:   NOP0
            LDA Sobject,s  ; -----
@@ -38,8 +39,10 @@ cmpLp:     CPX tLen,d     ;compare j and tLen
            BREQ dCmpLp    ;if (j == tLen) branch dCmpLp
            ADDX i,d       ;i + j
            LDBYTEA Sobject,sxf ;a register = Sobject[i + j]
-           LDX  j,d       ;load j into x register
-           CPA Tobject,sxf ;compare Sobject[i + j] to Tobject[j]
+           STA char,d      ;char = Sobject[i + j]
+           LDX  j,d        ;load j into x register
+           LDBYTEA Tobject,sxf ;a register = Tobject[j]
+           CPA char,d      ;compare Sobject[i + j] to Tobject[j]
            BRNE dCmpLp     ;Sobject[i + j] != Tobject[j], end loop
            ADDX change,s   ;j += change
            STX j,d         ;
