@@ -1,12 +1,59 @@
 ;************************************************************************
 ;
-;********  int SindxOf (char[] Sobject, char[] Tobject, int begin,int end, int change)
+;********  int SindxOf (char[] Sobject, char[] Tobject, int begin, int end, int change)
 ;
            .GLOBAL  SindxOf
 ;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE  2
+Tobject:   .EQUATE  4
+begin:     .EQUATE  6
+end:       .EQUATE  8
+change:    .EQUATE  10
 ;-- Local Data ----------------------------------------------------------
+i:         .WORD    0
+j:         .WORD    0
+tLen:      .BLOCK   2
+sLen:      .BLOCK   2
 ;-- Entry Point ---------------------------------------------------------
 SindxOf:   NOP0
-           RET0
+           LDA Sobject,s  ; -----
+           STA -2,s       ;
+           SUBSP 2,i      ;
+           CALL Slength   ; sLen = Slength(Sobject)
+           ADDSP 2,i      ;
+           STA sLen,d     ; ------
+           LDA Tobject,s  ;
+           STA -2,s       ;
+           SUBSP 2,i      ;
+           CALL Slength   ; tLen = Slength(Tobject)
+           ADDSP 2,i      ;
+           STA tLen,d     ;-------
+           LDX begin,s    ;Load the begin para into x register
+           STX i,d        ;Store x register into i
+loop:      CPX end,s      ;Compare i and end
+           BREQ retFalse  ;if (i == end) return false
+           LDX 0,i        ;Load 0 into x register
+           STX j,d        ;j = 0
+cmpLp:     CPX tLen,d     ;compare j and tLen
+           BREQ dCmpLp    ;if (j == tLen) branch dCmpLp
+           ADDX i,d       ;i + j
+           LDBYTEA Sobject,sxf ;a register = Sobject[i + j]
+           LDX  j,d       ;load j into x register
+           CPA Tobject,sxf ;compare Sobject[i + j] to Tobject[j]
+           BRNE dCmpLp     ;Sobject[i + j] != Tobject[j], end loop
+           ADDX change,d   ;j += change
+           STX j,d         ;
+           BR cmpLp        ;loop
+dCmpLp:    LDX j,d         ;load j into x register
+           CPX tLen,d      ;compare j to tLen
+           BREQ retTrue    ;return true if (j == tLen)
+           LDX i,d         ;i += change
+           ADDX change,d
+           STX i,d
+           BR loop         ;loop
+retFalse:  LDA -1,i        ;load -1
+           RET0            ;return -1
+retTrue:   LDA i,d         ;load i
+           RET0            ;return i
 ;
 ;=========================================================================
