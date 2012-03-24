@@ -4,9 +4,32 @@
 ;
            .GLOBAL  SnindxOf
 ;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE 2
+Tobject:   .EQUATE 4
+begIndex:  .EQUATE 6
 ;-- Local Data ----------------------------------------------------------
+length:    .WORD   0
 ;-- Entry Point ---------------------------------------------------------
 SnindxOf:  NOP0
-           RET0
+           LDA Sobject,s       ; -----
+           STA -2,s            ;
+           SUBSP 2,i           ;
+           CALL Slength        ; length = Slength(Sobject)
+           ADDSP 2,i           ;
+           STA length,d        ; ------
+           LDA      1,i        ;load 1 as change
+           STA      -8,s
+           LDA      length,s   ;load length as end
+           STA      -6,s
+           LDA      begIndex,s ;load begIndex as begin
+           STA      -4,s
+           LDA      as2,d      ;load as2 as Tobject
+           STA      -2,s
+           LDA      as1,d      ;load as1 as Sobject
+           STA      0,s
+           SUBSP    10,i       ;alloc memory
+           CALL     SindxOf    ;a register = SindxOf(Sobject, Tobject, begIndex, Sobject.length, 1)
+           ADDSP    10,i       ;delloc memory
+           RET0                ;return to calling program
 ;
 ;=========================================================================
