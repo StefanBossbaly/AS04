@@ -18,15 +18,15 @@ SnindxOf:  NOP0
            ADDSP 2,i           ;
            STA length,d        ; ------
            LDA      1,i        ;load 1 as change
-           STA      -8,s
-           LDA      length,s   ;load length as end
-           STA      -6,s
-           LDA      begIndex,s ;load begIndex as begin
-           STA      -4,s
-           LDA      as2,d      ;load as2 as Tobject
            STA      -2,s
+           LDA      length,s   ;load length as end
+           STA      -4,s
+           LDA      begIndex,s ;load begIndex as begin
+           STA      -6,s
+           LDA      as2,d      ;load as2 as Tobject
+           STA      -8,s
            LDA      as1,d      ;load as1 as Sobject
-           STA      0,s
+           STA      -10,s
            SUBSP    10,i       ;alloc memory
            CALL     SindxOf    ;a register = SindxOf(Sobject, Tobject, begIndex, Sobject.length, 1)
            ADDSP    10,i       ;delloc memory
