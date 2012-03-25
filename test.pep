@@ -59,7 +59,7 @@ main:      NOP0
            STA      4,s
            LDA      as2,d   ;load as2 as Tobject
            STA      2,s
-           LDA      as2,d   ;load as1 as Sobject
+           LDA      as1,d   ;load as1 as Sobject
            STA      0,s
            CALL SnindxOf    ;Call sub routine
            ADDSP    6,i     ;dealloc memory
