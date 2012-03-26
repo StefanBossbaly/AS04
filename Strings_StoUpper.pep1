@@ -1,5 +1,7 @@
 ;************************************************************************
-;
+; Converts the ASCII encoded string so that all letters from a - z
+; are converted to uppercase. This subroutine uses a simple comparasion
+; to check if the character is between A and Z
 ;********  void StoUpper (char[] Sobject)
 ;
            .GLOBAL  StoUpper
