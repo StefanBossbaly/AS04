@@ -16,7 +16,7 @@ Sshiftl:   NOP0
            LDX      begIndex,s   ;load the begin index into x register
            STX      curIndex,d   ;save the begin index to the loop counter
 loop:      CPX      n,s          ;compare loop counter to n
-           BRGT     end          ;branch to end if i > n
+           BRGE     end          ;branch to end if i >= n
            ADDX     distance,s   ;add distance to x register (i + distance)
            LDBYTEA  Sobject,sxf  ;load Sobject[i + distance] into a register
            LDX      curIndex,d   ;load i into the x register
