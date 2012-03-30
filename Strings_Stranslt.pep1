@@ -1,17 +1,20 @@
 ;************************************************************************
-;
+;Replaces the chars in Sobject by looking at the even indexed chars in
+;table as keys and the odd indexed chars as values.
+;For example Stranslt("Hello Mom","HjMWmw") results in "jello Wow"
+;Author: Stefan Bossbaly
 ;********  void Stranslt (char[] Sobject, char[] table)
 ;
            .GLOBAL  Stranslt
 ;-- Arguments -----------------------------------------------------------
-Sobject:   .EQUATE  2
-table:     .EQUATE  4
+Sobject:   .EQUATE  2            ;formal parameter address of Sobject
+table:     .EQUATE  4            ;formal parameter address of table
 ;-- Local Data ----------------------------------------------------------
-sLen:      .WORD    0
-tLen:      .WORD    0
-index:     .WORD    0
-index2:    .WORD    0
-char:      .BYTE    0
+sLen:      .WORD    0            ;length of Sobject
+tLen:      .WORD    0            ;length of table
+index:     .WORD    0            ;index of outLp
+index2:    .WORD    0            ;index of inLp
+char:      .BYTE    0            ;used as a temporary storage of a char
 ;-- Entry Point ---------------------------------------------------------
 Stranslt:  LDA      Sobject,s    ; ----
            STA      -2,s         ;
