@@ -4,9 +4,51 @@
 ;
            .GLOBAL  Stranslt
 ;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE  2
+table:     .EQUATE  4
 ;-- Local Data ----------------------------------------------------------
+sLen:      .WORD    0
+tLen:      .WORD    0
+index:     .WORD    0
+index2:    .WORD    0
+char:      .BYTE    0
 ;-- Entry Point ---------------------------------------------------------
-Stranslt:   NOP0
-            RET0
-;
+Stranslt:  LDA      Sobject,s    ; ----
+           STA      -2,s         ;
+           SUBSP    2,i          ;
+           CALL     Slength      ; sLen = Slength(Sobject)
+           ADDSP    2,i          ;
+           STX      sLen,d       ; ----
+           LDA      table,s      ; ----
+           STA      -2,s         ;
+           SUBSP    2,i          ;
+           CALL     Slength      ; sLen = Slength(table)
+           ADDSP    2,i          ;
+           STX      tLen,d       ; ----
+           LDA      0,i          ;clear the a register
+           LDX      0,i          ;load 0 into x register
+           STX      index,d      ;index = 0
+outLp:     CPX      sLen,d       ;compare index to sLen
+           BRGE     end          ;if (index >= sLen) end loop
+           LDBYTEA  Sobject,sxf  ;a register = Sobject[index]
+           STBYTEA  char,d       ;char = Sobject[index]
+           LDX      0,i          ;load 0 into x register
+           STX      index2,d     ;index2 = 0
+inLp:      CPX      tLen,d       ;compare index2 to tLen
+           BRGE     endinLp      ;if (index2 >= tLen) end inLp
+           LDBYTEA  table,sxf    ;a register = table[index2]
+           CPA      char,d       ;compare Sobject[index] to table[index2]
+           BREQ     trans        ;if (Sobject[index] == table[index2])
+           ADDX     2,i          ;index += 2 (we only want to check the even numbers)
+           STX      index2,d     ;
+           BR       inLp         ;loop
+trans:     ADDX     1,i          ;index2 + 1
+           LDBYTEA  table,sxf    ;a register = table[index2 + 1]
+           LDX      index,d      ;load index into x register
+           STBYTEA  Sobject,sxf  ; Sobject[index] = table[index2 + 1]
+endinLp:   LDX      index,d      ;
+           ADDX     1,i          ;index++
+           STX      index,d      ;
+           BR       outLp        ;loop!
+end:       RET0                  ;return to calling program
 ;=========================================================================
