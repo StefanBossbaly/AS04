@@ -17,20 +17,7 @@ loop:      LDBYTEA Sobject,sxf ;load Sobject[i]
            ADDX 1,i ;i++
            STX index,d
            BR loop ;loop
-endLp:     LDA Sobject,s
-           STA -2,s
-           SUBSP 2,i
-           CALL Slength
-           ADDSP 2,i
-           STA -2,s ;Slength(Sobject) as n
-           LDA 0,i
-           STA -4,s ;0 as begin index
-           STX -6,s ;i as distance
-           LDA Sobject,s
-           STA -8,s
-           SUBSP 8,i
-           CALL Sshiftl
-           ADDSP 8,i
+endLp:     NOP0
            RET0
 ;
 ;=========================================================================
