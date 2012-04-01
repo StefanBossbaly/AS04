@@ -18,17 +18,17 @@
 ;
            .GLOBAL  SindxOf
 ;-- Arguments -----------------------------------------------------------
-Sobject:   .EQUATE  2
-Tobject:   .EQUATE  4
-begin:     .EQUATE  6
-end:       .EQUATE  8
-change:    .EQUATE  10
+Sobject:   .EQUATE  2            ;string that will be the searched for the substring
+Tobject:   .EQUATE  4            ;substring that will try to be found in the string
+begin:     .EQUATE  6            ;begin index
+end:       .EQUATE  8            ;end index
+change:    .EQUATE  10           ;loop is incrementing or decrementing
 ;-- Local Data ----------------------------------------------------------
-current:   .WORD    0
-current2:  .WORD    0
-tLen:      .BLOCK   2
-sLen:      .BLOCK   2
-char:      .BYTE    0
+current:   .WORD    0            ;index for the first loop
+current2:  .WORD    0            ;index for the second loop
+tLen:      .BLOCK   2            ;length of Tobject
+sLen:      .BLOCK   2            ;length of Sobject
+char:      .BYTE    0            ;use as temporary storage
 ;-- Entry Point ---------------------------------------------------------
 SindxOf:   NOP0
            LDA      Sobject,s    ; -----
