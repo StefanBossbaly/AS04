@@ -4,9 +4,26 @@
 ;
            .GLOBAL  SpindxOf
 ;-- Arguments -----------------------------------------------------------
+Sobject:   .EQUATE 2           ;string that will be the searched for the substring
+Tobject:   .EQUATE 4           ;substring that will try to be found in the string
+begIndex:  .EQUATE 6           ;begin index 
 ;-- Local Data ----------------------------------------------------------
+; None
 ;-- Entry Point ---------------------------------------------------------
 SpindxOf:  NOP0
-           RET0
+           LDA      -1,i       ;load -1 as change
+           STA      -2,s
+           LDA      0,i        ;load 0 as end
+           STA      -4,s
+           LDA      begIndex,s ;load begIndex as begin
+           STA      -6,s
+           LDA      as2,d      ;load as2 as Tobject
+           STA      -8,s
+           LDA      as1,d      ;load as1 as Sobject
+           STA      -10,s
+           SUBSP    10,i       ;alloc memory
+           CALL     SindxOf    ;a register = SindxOf(Sobject, Tobject, begIndex, 0, -1)
+           ADDSP    10,i       ;delloc memory
+           RET0                ;return to calling program
 ;
 ;=========================================================================
