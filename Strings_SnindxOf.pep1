@@ -4,11 +4,11 @@
 ;
            .GLOBAL  SnindxOf
 ;-- Arguments -----------------------------------------------------------
-Sobject:   .EQUATE 2
-Tobject:   .EQUATE 4
-begIndex:  .EQUATE 6
+Sobject:   .EQUATE 2           ;string that will be the searched for the substring
+Tobject:   .EQUATE 4           ;substring that will try to be found in the string
+begIndex:  .EQUATE 6           ;begin index 
 ;-- Local Data ----------------------------------------------------------
-length:    .WORD   0
+length:    .WORD   0           ;length of Sobject
 ;-- Entry Point ---------------------------------------------------------
 SnindxOf:  NOP0
            LDA Sobject,s       ; -----
@@ -19,7 +19,7 @@ SnindxOf:  NOP0
            STA length,d        ; ------
            LDA      1,i        ;load 1 as change
            STA      -2,s
-           LDA      length,s   ;load length as end
+           LDA      length,d   ;load length as end
            STA      -4,s
            LDA      begIndex,s ;load begIndex as begin
            STA      -6,s
