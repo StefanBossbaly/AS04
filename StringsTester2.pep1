@@ -7,8 +7,15 @@ as1:       .ADDRSS  s1
 s2:        .ASCII   "ell\x00"
 as2:       .ADDRSS  s2
 return:    .WORD    0
+StoLM:     .ASCII  "StoLower(s1)\n\x00"
+StoUM:     .ASCII  "StoUpper(s1)\n\x00"
+SindM:     .ASCII  "SindxOf(s1, s2, 0, 5, 1)\n\x00"
+SnindM:    .ASCII  "SnindxOf(s1, s2, 0)\n\x00"
+SpindM:    .ASCII  "SpindxOf(s1, s2, s1.length)\n\x00"
+
 main:      NOP0
 ;-- StoLower -----------------------------------------------------------
+           STRO     StoLM,d
            LDA      as1,d
            STA      -2,s
            SUBSP    2,i
@@ -17,6 +24,7 @@ main:      NOP0
            CHARO    '\n',i 
            ADDSP    2,i
 ;-- StoUpper -----------------------------------------------------------
+           STRO     StoUM,d
            LDA      as1,d
            STA      -2,s
            SUBSP    2,i
@@ -25,7 +33,8 @@ main:      NOP0
            CHARO    '\n',i
            ADDSP    2,i
 ;-- SindxOf -----------------------------------------------------------
-           SUBSP    10,i     ;alloc memory
+           STRO     SindM,d
+           SUBSP    10,i    ;alloc memory
            LDA      1,i     ;load 1 as change
            STA      8,s
            LDA      5,i     ;load 5 as end
@@ -40,7 +49,9 @@ main:      NOP0
            ADDSP    10,i
            STA return,d
            DECO return,d
+           CHARO    '\n',i
 ;-- SnindxOf -----------------------------------------------------------
+           STRO     SnindM,d
            SUBSP    6,i     ;alloc memory
            LDA      0,i     ;load 0 as beginIndex
            STA      4,s
@@ -52,6 +63,26 @@ main:      NOP0
            ADDSP    6,i     ;dealloc memory
            STA return,d
            DECO return,d    ;output result
+           CHARO    '\n',i
+;-- SpindxOf -----------------------------------------------------------
+           STRO     SpindM,d
+           LDA as1,s           ; -----
+           STA -2,s            ;
+           SUBSP 2,i           ;a register = Slength(Sobject)
+           CALL Slength        ;
+           ADDSP 2,i           ;-------
+           SUBSP    6,i     ;alloc memory
+           LDA      0,i     ;
+           STA      4,s     ;load Slength(Sobject) as beginIndex
+           LDA      as2,d   ;load as2 as Tobject
+           STA      2,s
+           LDA      as1,d   ;load as1 as Sobject
+           STA      0,s
+           CALL SpindxOf    ;Call sub routine
+           ADDSP    6,i     ;dealloc memory
+           STA return,d
+           DECO return,d    ;output result
+           CHARO    '\n',i
 ;-- Sshiftl -----------------------------------------------------------
            SUBSP    8,i
            LDA      2,i ;load 2 as n
