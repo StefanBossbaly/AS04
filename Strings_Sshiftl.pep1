@@ -1,5 +1,5 @@
 ;************************************************************************
-;
+; Author: Stefan Bossbaly
 ;********  void Sshiftl (char[] Sobject, int distance, int begIndex, int n)
 ;
            .GLOBAL  Sshiftl

@@ -1,5 +1,8 @@
 ;************************************************************************
-; Example Java Code
+; Private subprogram that generalizes the searching of SnindxOf and SpindxOf, by providing the
+; necessary parameters to search either forward (increasing index value) or backward (decreasing
+; index value)
+; *****Example Java Code *********************************************************************
 ;	static boolean SindxOf(char[] Sobject, char[] Tobject, int begin, int end, int change) {
 ;		for (int i = begin; i != end; i += change) {
 ;			int j = 0;
@@ -11,9 +14,10 @@
 ;			if (j == Tobject.length)
 ;				return true;
 ;		}
-
+;
 ;		return false;
 ;	}
+; Authors: Stefan Bossbaly, Chris Cummings
 ;********  int SindxOf (char[] Sobject, char[] Tobject, int begin, int end, int change)
 ;
            .GLOBAL  SindxOf

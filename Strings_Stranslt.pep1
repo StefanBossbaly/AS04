@@ -1,8 +1,8 @@
 ;************************************************************************
-;Replaces the chars in Sobject by looking at the even indexed chars in
-;table as keys and the odd indexed chars as values.
-;For example Stranslt("Hello Mom","HjMWmw") results in "jello Wow"
-;Author: Stefan Bossbaly
+; Replaces the chars in Sobject by looking at the even indexed chars in
+; table as keys and the odd indexed chars as values.
+; For example Stranslt("Hello Mom","HjMWmw") results in "jello Wow"
+; Authors: Stefan Bossbaly
 ;********  void Stranslt (char[] Sobject, char[] table)
 ;
            .GLOBAL  Stranslt

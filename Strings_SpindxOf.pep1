@@ -1,5 +1,8 @@
 ;************************************************************************
-;
+; Returns the index of the previous instance of the “substring” T within the given string S.  The search
+; implemented by this subprogram begins at the given index, begIndex and progresses in descending index 
+; value order
+; Authors: Stefan Bossbaly, Chris Cummings
 ;********  int SpindxOf (char[] Sobject, char[] Tobject, int begIndex)
 ;
            .GLOBAL  SpindxOf
