@@ -1,4 +1,7 @@
 ;************************************************************************
+; Private subprogram that shifts the character values within the sequence of characters of the given
+; string left.  The intention being that each S[i] takes on the value in S[i+distance] in turn for 
+; each (begIndex <= i < n).  As needed, null characters are shifted in.
 ; Author: Stefan Bossbaly
 ;********  void Sshiftl (char[] Sobject, int distance, int begIndex, int n)
 ;
