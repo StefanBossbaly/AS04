@@ -1,5 +1,19 @@
 ;************************************************************************
+; Example Java Code
+;	static boolean SindxOf(char[] Sobject, char[] Tobject, int begin, int end, int change) {
+;		for (int i = begin; i != end; i += change) {
+;			int j = 0;
+;			for (j = 0; j != Tobject.length; j += 1) {
+;				if ((i + j) >= Sobject.length || Sobject[i + j] != Tobject[j])
+;					break;
+;			}
 ;
+;			if (j == Tobject.length)
+;				return true;
+;		}
+
+;		return false;
+;	}
 ;********  int SindxOf (char[] Sobject, char[] Tobject, int begin, int end, int change)
 ;
            .GLOBAL  SindxOf
@@ -38,13 +52,15 @@ loop:      CPX      end,s        ;Compare i and end
 cmpLp:     CPX      tLen,d       ;compare j and tLen
            BREQ     dCmpLp       ;if (j == tLen) branch dCmpLp
            ADDX     current,d    ;i + j
+           CPX      sLen,d       ;compare i + j with sLen
+           BRGE     dCmpLp       ;if ((i + j) >= sLen) end CmpLp
            LDBYTEA  Sobject,sxf  ;a register = Sobject[i + j]
            STA      char,d       ;char = Sobject[i + j]
            LDX      current2,d   ;load j into x register
            LDBYTEA  Tobject,sxf  ;a register = Tobject[j]
            CPA      char,d       ;compare Sobject[i + j] to Tobject[j]
            BRNE     dCmpLp       ;Sobject[i + j] != Tobject[j], end loop
-           ADDX     change,s     ;j += change
+           ADDX     1,i          ;j ++
            STX      current2,d   ;
            BR       cmpLp        ;loop
 dCmpLp:    LDX      current2,d   ;load j into x register
