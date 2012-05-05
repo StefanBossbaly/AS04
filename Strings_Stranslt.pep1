@@ -14,7 +14,7 @@ sLen:      .WORD    0            ;length of Sobject
 tLen:      .WORD    0            ;length of table
 index:     .WORD    0            ;index of outLp
 index2:    .WORD    0            ;index of inLp
-char:      .BYTE    0            ;used as a temporary storage of a char
+char:      .BLOCK   0            ;used as a temporary storage of a char
 ;-- Entry Point ---------------------------------------------------------
 Stranslt:  LDA      Sobject,s    ; ----
            STA      -2,s         ;
@@ -28,17 +28,18 @@ Stranslt:  LDA      Sobject,s    ; ----
            CALL     Slength      ; sLen = Slength(table)
            ADDSP    2,i          ;
            STX      tLen,d       ; ----
-           LDA      0,i          ;clear the a register
            LDX      0,i          ;load 0 into x register
            STX      index,d      ;index = 0
 outLp:     CPX      sLen,d       ;compare index to sLen
            BRGE     end          ;if (index >= sLen) end loop
+           LDA      0,i          ;clear the a register (for high-ordered bits)
            LDBYTEA  Sobject,sxf  ;a register = Sobject[index]
-           STBYTEA  char,d       ;char = Sobject[index]
+           STA      char,d       ;char = Sobject[index]
            LDX      0,i          ;load 0 into x register
            STX      index2,d     ;index2 = 0
 inLp:      CPX      tLen,d       ;compare index2 to tLen
            BRGE     endinLp      ;if (index2 >= tLen) end inLp
+           LDA      0,i          ;clear the a register (for high-ordered bits)
            LDBYTEA  table,sxf    ;a register = table[index2]
            CPA      char,d       ;compare Sobject[index] to table[index2]
            BREQ     trans        ;if (Sobject[index] == table[index2])
